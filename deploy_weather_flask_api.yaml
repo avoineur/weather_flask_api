@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-flask-api-deploy
+  labels:
+    type: restapi
+spec:
+  selector: 
+    matchLabels:
+      app: weather-flask-api
+  replicas: 1
+  template:
+    metadata:
+      name: weather-flask-api-tmpl
+      labels:
+        app: weather-flask-api
+    spec:
+      containers:
+        - name: weather-flask-api
+          image: weather-flask-api:latest
+          env:
+            - name: ACCUWEATHER_API_KEY
+              value: "CH1j1NjBJy0lVtSTnE8w9rev9hCfQ7zR"
+          #Only use for minikube, comment when running on real kubernetes
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
